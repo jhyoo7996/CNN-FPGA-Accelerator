@@ -13,7 +13,7 @@ We implemented a lightweight CNN tailored for FPGA deployment.
 The model structure is as follows:
 
 <!-- Insert architecture diagram -->
-![CNN Architecture](images/cnn_architecture.png)
+![CNN Architecture](images/target_cnn_architecture.png)
 
 Each layer’s kernel size, number of channels, and function are summarized below:
 
