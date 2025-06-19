@@ -59,7 +59,7 @@ Our design leverages a **PE (Processing Element)-based architecture**, where MAC
 
 <!-- Insert PE block diagram -->
 <p align="center">
-  <img src="images/pe_structure.png" width="45%"/>
+  <img src="images/PE_structure.png" width="45%"/>
   <img src="images/MAC.png" width="45%"/>
 </p>
 
