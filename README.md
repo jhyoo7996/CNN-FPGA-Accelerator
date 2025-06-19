@@ -13,7 +13,7 @@ We implemented a lightweight CNN tailored for FPGA deployment.
 The model structure is as follows:
 
 <p align="center">
-  <img src="images/target_cnn_architecture.png" alt="CNN Architecture" width="90%">
+  <img src="images/target_cnn_architecture.png" alt="CNN Architecture" width="70%">
 </p>
 
 To run the model efficiently on FPGA, we used fixed-point arithmetic with an 8-bit representation.  
@@ -26,7 +26,7 @@ To fit values into this limited precision:
 The diagram below illustrates how this fixed-point quantization process works:
 
 <p align="center">
-  <img src="images/bit_precision.png" alt="Fixed-Point Processing" width="90%">
+  <img src="images/bit_precision.png" alt="Fixed-Point Processing" width="70%">
 </p>
 
 ---
@@ -57,42 +57,43 @@ Our design leverages a **PE (Processing Element)-based architecture**, where MAC
 
 <!-- PE + MAC diagram side-by-side -->
 <p align="center">
-  <img src="images/PE_structure.png" width="45%">
-  <img src="images/MAC.png" width="45%">
+  <img src="images/PE_structure.png" width="60%">
+  <img src="images/MAC.png" width="30%">
 </p>
 
-*Left: PE Structure Diagram | Right: MAC Layout*
+<p align="center"><i>Left: PE Structure Diagram | Right: MAC Layout</i></p>
+
 
 hello
 
 <p align="center">
-  <img src="images/4PE_structure.png" alt="PE Architecture" width="90%">
+  <img src="images/4PE_structure.png" alt="PE Architecture" width="50%">
 </p>
 
 hi
 
 <p align="center">
-  <img src="images/weight_distribution.png" width="45%">
-  <img src="images/FC_weight_distribution.png" width="45%">
+  <img src="images/weight_distribution.png" width="50%">
+  <img src="images/FC_weight_distribution.png" width="50%">
 </p>
 
 Each layer performs operations as follows:
 - **Convolution 1**: Streaming data into PEs with weight reuse
 
 <p align="center">
-  <img src="images/conv1_layer.png" alt="Conv1 Layer" width="90%">
+  <img src="images/conv1_layer.png" alt="Conv1 Layer" width="70%">
 </p>
 
 - **Convolution 2**: Streaming data into PEs with weight reuse
 
 <p align="center">
-  <img src="images/conv2_maxpool_layer.png" alt="Conv2+Pooling" width="90%">
+  <img src="images/conv2_maxpool_layer.png" alt="Conv2+Pooling" width="100%">
 </p>
 
 - **Fully Connected**: Executed using the same PE array in time-multiplexed fashion
 
 <p align="center">
-  <img src="images/fc_layer.png" alt="FC Layer" width="90%">
+  <img src="images/fc_layer.png" alt="FC Layer" width="100%">
 </p>
 
 We also carefully designed **BRAM access patterns** to optimize performance.
@@ -110,15 +111,13 @@ We also carefully designed **BRAM access patterns** to optimize performance.
 After full synthesis and implementation on the FPGA board:
 
 <p align="center">
-  <img src="images/power_report.png" alt="Power Report" width="90%">
+  <img src="images/power_report.png" width="50%">
+  <img src="images/resource_report.png" width="50%">
 </p>
 
-<p align="center">
-  <img src="images/resource_report.png" alt="Resource Report" width="90%">
-</p>
 
 <p align="center">
-  <img src="images/imple_design.png" alt="Implementation Design" width="90%">
+  <img src="images/imple_design.png" alt="Implementation Design" width="30%">
 </p>
 
 ---
@@ -133,11 +132,11 @@ We explored model compression techniques including:
 - Support for **larger datasets (e.g., CIFAR-10)**
 
 <p align="center">
-  <img src="images/qt_4bit.png" alt="Quantization 4bit" width="90%">
+  <img src="images/qt_4bit.png" alt="Quantization 4bit" width="70%">
 </p>
 
 <p align="center">
-  <img src="images/qt_2bit.png" alt="Quantization 2bit" width="90%">
+  <img src="images/qt_2bit.png" alt="Quantization 2bit" width="70%">
 </p>
 
 ---
