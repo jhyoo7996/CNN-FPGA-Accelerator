@@ -16,11 +16,22 @@ The model structure is as follows:
 ![CNN Architecture](images/target_cnn_architecture.png)
 
 
+To run the model efficiently on FPGA, we used fixed-point arithmetic with an 8-bit representation.  
+All intermediate and output values were stored using 8 bits.
+
+To fit values into this limited precision:
+- We discarded the lower bits after multiplication to reduce the bit-width.
+- Then, we applied clamping to keep the values within the valid 8-bit range.
+
+The diagram below illustrates how this fixed-point quantization process works:
+
+<!-- Insert fixed-point handling diagram -->
+![Fixed-Point Processing](images/bit_precision.png)
+
+
 ---
 
 ## 📊 Computational Analysis
-
-> *(You can rename this section: “MAC & Memory Access Profiling” or “Computation and Memory Access Insights”)*
 
 In this section, we break down the computation cost per layer in terms of:
 - Number of **Multiply-Accumulate (MAC)** operations
@@ -34,7 +45,7 @@ This analysis justifies our decision to adopt different dataflow models:
 | IMEM Access          | 784            | 5408            | 9216           | 2304               |
 | WMEM Access      | 72             | 1152             | -           | 23040              |
 | MAC Operations        | 48672             | 663552             | -          | 23040               |
-| Dataflow Strategy|      Weight Stationary              |     Weight Stationary                  |           Output Stationary        |
+| Dataflow Strategy|      Weight Stationary              |     Weight Stationary                  |  - |       Output Stationary        |
 
 
 
@@ -68,16 +79,11 @@ We also carefully designed **BRAM access patterns** to optimize performance.
 
 After full synthesis and implementation on the FPGA board:
 
-| Metric                | Value        |
-|-----------------------|--------------|
-| Device                | Artix-7 A100 |
-| Max Frequency         | 120 MHz      |
-| Latency per Image     | 0.85 ms      |
-| Total LUTs Used       | 13,240       |
-| BRAM Blocks Used      | 34 / 50      |
 
-We verified the accuracy by comparing against a **Python-based inference (Jupyter Notebook)**.  
-Our 4-bit quantized model retained **~97% accuracy** on MNIST.
+![Quantization Results](images/power_report.png)
+![Quantization Results](images/resource_report.png)
+![Quantization Results](images/imple_design.png)
+
 
 ---
 
@@ -85,6 +91,8 @@ Our 4-bit quantized model retained **~97% accuracy** on MNIST.
 
 We explored model compression techniques including:
 - **Quantization**: down to 4-bit and 2-bit versions
+We verified the accuracy by comparing against a **Python-based inference (Jupyter Notebook)**.  
+Our 4-bit quantized model retained **~97% accuracy** on MNIST.
 - **PE sharing** for further area reduction
 - Support for **larger datasets (e.g., CIFAR-10)**
 
