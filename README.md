@@ -73,8 +73,8 @@ hello
 hi
 
 <p align="center">
-  <img src="images/weight_distribution.png" width="50%">
-  <img src="images/FC_weight_distribution.png" width="50%">
+  <img src="images/weight_distribution.png" width="45%">
+  <img src="images/FC_weight_distribution.png" width="45%">
 </p>
 
 Each layer performs operations as follows:
@@ -111,8 +111,8 @@ We also carefully designed **BRAM access patterns** to optimize performance.
 After full synthesis and implementation on the FPGA board:
 
 <p align="center">
-  <img src="images/power_report.png" width="50%">
-  <img src="images/resource_report.png" width="50%">
+  <img src="images/power_report.png" width="45%">
+  <img src="images/resource_report.png" width="45%">
 </p>
 
 
