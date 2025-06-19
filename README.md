@@ -58,12 +58,35 @@ This analysis justifies our decision to adopt different dataflow models:
 Our design leverages a **PE (Processing Element)-based architecture**, where MAC units are reused across convolution and FC layers.
 
 <!-- Insert PE block diagram -->
-![PE Architecture](images/pe_architecture.png)
+<p align="center">
+  <img src="images/pe_structure.png" width="45%"/>
+  <img src="images/MAC.png" width="45%"/>
+</p>
+
+*Left: PE Structure Diagram | Right: MAC Layout*
+
+hello 
+
+![PE Architecture](images/4PE_structure.png)
+
+hi
+
+<p align="center">
+  <img src="images/weight_distribution.png" width="45%"/>
+  <img src="images/FC_weight_distribution.png" width="45%"/>
+</p>
+
 
 Each layer performs operations as follows:
-- **Convolution**: Streaming data into PEs with weight reuse
-- **Pooling** and **Activation**: Implemented using combinational logic
+- **Convolution 1**: Streaming data into PEs with weight reuse
+
+![PE Architecture](images/conv1_layer.png)
+- **Convolution 2**: Streaming data into PEs with weight reuse
+
+![PE Architecture](images/conv2_maxpool_layer.png)
 - **Fully Connected**: Executed using the same PE array in time-multiplexed fashion
+
+![PE Architecture](images/fc_layer.png)
 
 We also carefully designed **BRAM access patterns** to optimize performance.
 
@@ -97,7 +120,8 @@ Our 4-bit quantized model retained **~97% accuracy** on MNIST.
 - Support for **larger datasets (e.g., CIFAR-10)**
 
 <!-- Optional quantization comparison diagram -->
-![Quantization Results](images/quantization_comparison.png)
+![Quantization Results](images/qt_4bit.png)
+![Quantization Results](images/qt_2bit.png)
 
 ---
 
