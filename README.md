@@ -16,13 +16,11 @@ The model structure is as follows:
 ![CNN Architecture](images/target_cnn_architecture.png)
 
 Each layer’s kernel size, number of channels, and function are summarized below:
-
-| Layer           | Type         | Kernel Size | Input Channels | Output Channels |
-|----------------|--------------|-------------|----------------|-----------------|
-| Layer 1        | Convolution  | 3×3         | 1              | 4               |
-| Layer 2        | ReLU         | –           | –              | –               |
-| Layer 3        | Max Pooling  | 2×2         | 4              | 4               |
-| Layer 4        | Fully Connected | –        | 196            | 10              |
+|                      | Convolution 1 | Convolution 2 | Max Pooling | Fully Connected |
+|----------------------|---------------|---------------|-------------|-----------------|
+| Ifmap Access          | 784            | 5408            | 9216           | 2304               |
+| Filtermap Access      | 72             | 1152             | -           | 23040              |
+| MAC Operations        | 48672             | 663552             | -          | 23040               |
 
 ---
 
