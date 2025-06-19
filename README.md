@@ -15,12 +15,6 @@ The model structure is as follows:
 <!-- Insert architecture diagram -->
 ![CNN Architecture](images/target_cnn_architecture.png)
 
-Each layer’s kernel size, number of channels, and function are summarized below:
-|                      | Convolution 1 | Convolution 2 | Max Pooling | Fully Connected |
-|----------------------|---------------|---------------|-------------|-----------------|
-| Ifmap Access          | 784            | 5408            | 9216           | 2304               |
-| Filtermap Access      | 72             | 1152             | -           | 23040              |
-| MAC Operations        | 48672             | 663552             | -          | 23040               |
 
 ---
 
@@ -35,10 +29,14 @@ In this section, we break down the computation cost per layer in terms of:
 This analysis justifies our decision to adopt different dataflow models:
 - **Weight Stationary** vs **Input Stationary** strategies
 
-| Layer           | MACs        | IMEM Access | WMEM Access | Dataflow Strategy |
-|----------------|-------------|-------------|-------------|-------------------|
-| Conv Layer     | 112,896     | High        | Moderate    | Weight Stationary |
-| FC Layer       | 1,960       | Moderate    | High        | Input Stationary  |
+|           Layer           | Convolution 1 | Convolution 2 | Max Pooling | Fully Connected |
+|----------------------|---------------|---------------|-------------|-----------------|
+| IMEM Access          | 784            | 5408            | 9216           | 2304               |
+| WMEM Access      | 72             | 1152             | -           | 23040              |
+| MAC Operations        | 48672             | 663552             | -          | 23040               |
+| Dataflow Strategy|      Weight Stationary              |     Weight Stationary                  |           Output Stationary        |
+
+
 
 ---
 
