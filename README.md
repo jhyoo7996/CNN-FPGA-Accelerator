@@ -12,9 +12,9 @@ Rather than focusing on batch processing, our primary target was to minimize the
 We implemented a lightweight CNN tailored for FPGA deployment.  
 The model structure is as follows:
 
-<!-- Insert architecture diagram -->
-![CNN Architecture](images/target_cnn_architecture.png)
-
+<p align="center">
+  <img src="images/target_cnn_architecture.png" alt="CNN Architecture" width="90%">
+</p>
 
 To run the model efficiently on FPGA, we used fixed-point arithmetic with an 8-bit representation.  
 All intermediate and output values were stored using 8 bits.
@@ -25,9 +25,9 @@ To fit values into this limited precision:
 
 The diagram below illustrates how this fixed-point quantization process works:
 
-<!-- Insert fixed-point handling diagram -->
-![Fixed-Point Processing](images/bit_precision.png)
-
+<p align="center">
+  <img src="images/bit_precision.png" alt="Fixed-Point Processing" width="90%">
+</p>
 
 ---
 
@@ -41,13 +41,11 @@ This analysis justifies our decision to adopt different dataflow models:
 - **Weight Stationary** vs **Input Stationary** strategies
 
 |           Layer           | Convolution 1 | Convolution 2 | Max Pooling | Fully Connected |
-|----------------------|---------------|---------------|-------------|-----------------|
-| IMEM Access          | 784            | 5408            | 9216           | 2304               |
-| WMEM Access      | 72             | 1152             | -           | 23040              |
-| MAC Operations        | 48672             | 663552             | -          | 23040               |
-| Dataflow Strategy|      Weight Stationary              |     Weight Stationary                  |  - |       Output Stationary        |
-
-
+|---------------------------|---------------|---------------|-------------|-----------------|
+| IMEM Access               | 784           | 5408          | 9216        | 2304            |
+| WMEM Access               | 72            | 1152          | -           | 23040           |
+| MAC Operations            | 48672         | 663552        | -           | 23040           |
+| Dataflow Strategy         | Weight Stationary | Weight Stationary | - | Output Stationary |
 
 ---
 
@@ -57,36 +55,45 @@ This analysis justifies our decision to adopt different dataflow models:
 
 Our design leverages a **PE (Processing Element)-based architecture**, where MAC units are reused across convolution and FC layers.
 
-<!-- Insert PE block diagram -->
+<!-- PE + MAC diagram side-by-side -->
 <p align="center">
-  <img src="images/PE_structure.png" width="45%"/>
-  <img src="images/MAC.png" width="45%"/>
+  <img src="images/PE_structure.png" width="45%">
+  <img src="images/MAC.png" width="45%">
 </p>
 
 *Left: PE Structure Diagram | Right: MAC Layout*
 
-hello 
+hello
 
-![PE Architecture](images/4PE_structure.png)
+<p align="center">
+  <img src="images/4PE_structure.png" alt="PE Architecture" width="90%">
+</p>
 
 hi
 
 <p align="center">
-  <img src="images/weight_distribution.png" width="45%"/>
-  <img src="images/FC_weight_distribution.png" width="45%"/>
+  <img src="images/weight_distribution.png" width="45%">
+  <img src="images/FC_weight_distribution.png" width="45%">
 </p>
-
 
 Each layer performs operations as follows:
 - **Convolution 1**: Streaming data into PEs with weight reuse
 
-![PE Architecture](images/conv1_layer.png)
+<p align="center">
+  <img src="images/conv1_layer.png" alt="Conv1 Layer" width="90%">
+</p>
+
 - **Convolution 2**: Streaming data into PEs with weight reuse
 
-![PE Architecture](images/conv2_maxpool_layer.png)
+<p align="center">
+  <img src="images/conv2_maxpool_layer.png" alt="Conv2+Pooling" width="90%">
+</p>
+
 - **Fully Connected**: Executed using the same PE array in time-multiplexed fashion
 
-![PE Architecture](images/fc_layer.png)
+<p align="center">
+  <img src="images/fc_layer.png" alt="FC Layer" width="90%">
+</p>
 
 We also carefully designed **BRAM access patterns** to optimize performance.
 
@@ -102,26 +109,36 @@ We also carefully designed **BRAM access patterns** to optimize performance.
 
 After full synthesis and implementation on the FPGA board:
 
+<p align="center">
+  <img src="images/power_report.png" alt="Power Report" width="90%">
+</p>
 
-![Quantization Results](images/power_report.png)
-![Quantization Results](images/resource_report.png)
-![Quantization Results](images/imple_design.png)
+<p align="center">
+  <img src="images/resource_report.png" alt="Resource Report" width="90%">
+</p>
 
+<p align="center">
+  <img src="images/imple_design.png" alt="Implementation Design" width="90%">
+</p>
 
 ---
 
 ## 🔭 Future Work & Extensions
 
 We explored model compression techniques including:
-- **Quantization**: down to 4-bit and 2-bit versions
-We verified the accuracy by comparing against a **Python-based inference (Jupyter Notebook)**.  
-Our 4-bit quantized model retained **~97% accuracy** on MNIST.
+- **Quantization**: down to 4-bit and 2-bit versions  
+  We verified the accuracy by comparing against a **Python-based inference (Jupyter Notebook)**.  
+  Our 4-bit quantized model retained **~97% accuracy** on MNIST.
 - **PE sharing** for further area reduction
 - Support for **larger datasets (e.g., CIFAR-10)**
 
-<!-- Optional quantization comparison diagram -->
-![Quantization Results](images/qt_4bit.png)
-![Quantization Results](images/qt_2bit.png)
+<p align="center">
+  <img src="images/qt_4bit.png" alt="Quantization 4bit" width="90%">
+</p>
+
+<p align="center">
+  <img src="images/qt_2bit.png" alt="Quantization 2bit" width="90%">
+</p>
 
 ---
 
